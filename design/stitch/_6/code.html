@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html class="light" lang="ru"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-highest": "#e5e2de",
+                    "surface-tint": "#79573f",
+                    "on-primary-fixed-variant": "#5f402a",
+                    "on-secondary-fixed-variant": "#673d00",
+                    "background": "#fcf9f5",
+                    "primary-fixed": "#ffdcc6",
+                    "on-primary-fixed": "#2d1604",
+                    "inverse-primary": "#eabda0",
+                    "secondary": "#875208",
+                    "surface-dim": "#dcdad6",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed": "#2c1700",
+                    "on-secondary-container": "#784700",
+                    "surface": "#fcf9f5",
+                    "on-surface": "#1c1c1a",
+                    "on-error": "#ffffff",
+                    "primary-container": "#6f4e37",
+                    "secondary-container": "#ffb869",
+                    "tertiary-fixed-dim": "#71dc92",
+                    "outline-variant": "#d4c3ba",
+                    "secondary-fixed": "#ffdcbb",
+                    "secondary-fixed-dim": "#ffb869",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-container": "#006332",
+                    "outline": "#82746d",
+                    "on-primary-container": "#eec1a4",
+                    "inverse-surface": "#31302e",
+                    "inverse-on-surface": "#f3f0ec",
+                    "primary-fixed-dim": "#eabda0",
+                    "on-background": "#1c1c1a",
+                    "on-secondary": "#ffffff",
+                    "surface-container-high": "#ebe8e4",
+                    "surface-container-low": "#f6f3ef",
+                    "on-tertiary-fixed": "#00210d",
+                    "on-primary": "#ffffff",
+                    "surface-variant": "#e5e2de",
+                    "on-surface-variant": "#50453e",
+                    "surface-bright": "#fcf9f5",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#005229",
+                    "tertiary-fixed": "#8df9ac",
+                    "surface-container": "#f0ede9",
+                    "on-tertiary-container": "#75e096",
+                    "error": "#ba1a1a",
+                    "tertiary": "#004923",
+                    "primary": "#553722",
+                    "on-error-container": "#93000a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-margin": "20px",
+                    "stack-gap-md": "16px",
+                    "unit": "8px",
+                    "stack-gap-sm": "8px",
+                    "stack-gap-lg": "24px",
+                    "gutter": "16px",
+                    "card-padding": "20px"
+            },
+            "fontFamily": {
+                    "data-tabular": ["JetBrains Mono"],
+                    "display-lg": ["Inter"],
+                    "body-rg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "display-lg-mobile": ["Inter"],
+                    "label-caps": ["Inter"]
+            },
+            "fontSize": {
+                    "data-tabular": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-rg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "display-lg-mobile": ["26px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Inter', sans-serif;
+            background-color: #fcf9f5;
+            color: #1c1c1a;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .chart-grid {
+            background-image: linear-gradient(to right, #e5e2de 1px, transparent 1px), linear-gradient(to bottom, #e5e2de 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .mask-fade-right {
+            mask-image: linear-gradient(to right, black 80%, transparent 100%);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-surface-dim">
+<!-- Mobile Container -->
+<main class="w-[390px] h-[844px] bg-background relative overflow-hidden flex flex-col shadow-2xl">
+<!-- Header -->
+<header class="fixed top-0 left-0 w-[390px] z-50 flex justify-between items-center px-container-margin h-16 bg-surface border-b border-outline-variant/10">
+<div class="flex items-center gap-3">
+<button class="active:scale-95 duration-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<div class="flex flex-col">
+<div class="flex items-center gap-1">
+<h1 class="text-body-rg font-bold text-primary">Зерно Espresso Blend</h1>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">expand_more</span>
+</div>
+</div>
+</div>
+<div class="bg-primary-container/10 text-primary px-2 py-0.5 rounded text-[10px] font-bold border border-primary-container/20">
+                Класс A
+            </div>
+</header>
+<!-- Content Canvas -->
+<div class="mt-16 flex-1 overflow-y-auto px-4 pt-4 pb-48">
+<!-- Metrics Row -->
+<div class="grid grid-cols-4 gap-2 mb-6">
+<div class="bg-surface-container-lowest p-2 rounded-lg border border-outline-variant/20">
+<p class="text-[9px] text-on-surface-variant font-label-caps uppercase leading-none mb-1">Остаток</p>
+<p class="font-data-tabular text-sm text-primary">4.5 <span class="text-[10px]">кг</span></p>
+</div>
+<div class="bg-surface-container-lowest p-2 rounded-lg border border-outline-variant/20">
+<p class="text-[9px] text-on-surface-variant font-label-caps uppercase leading-none mb-1">Расход/н</p>
+<p class="font-data-tabular text-sm text-primary">1.2 <span class="text-[10px]">кг</span></p>
+</div>
+<div class="bg-surface-container-lowest p-2 rounded-lg border border-outline-variant/20">
+<p class="text-[9px] text-on-surface-variant font-label-caps uppercase leading-none mb-1">Заказ</p>
+<p class="font-data-tabular text-sm text-secondary">24.09</p>
+</div>
+<div class="bg-surface-container-lowest p-2 rounded-lg border border-outline-variant/20">
+<p class="text-[9px] text-on-surface-variant font-label-caps uppercase leading-none mb-1">Объём</p>
+<p class="font-data-tabular text-sm text-primary">10 <span class="text-[10px]">кг</span></p>
+</div>
+</div>
+<!-- Main Analytics Chart (Historical Sales & Stock) -->
+<div class="bg-surface-container-lowest rounded-xl p-4 mb-6 border border-outline-variant/20">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-sm font-bold text-primary">Аналитика продаж и стока</h3>
+<div class="flex gap-1">
+<button class="px-2 py-1 bg-surface-container-low rounded text-[10px] font-bold text-on-surface-variant">2024</button>
+<button class="px-2 py-1 bg-surface-container-low rounded text-[10px] font-bold text-on-surface-variant">2025</button>
+<button class="px-2 py-1 bg-primary text-on-primary rounded text-[10px] font-bold">2026</button>
+</div>
+</div>
+<div class="h-48 relative border-l border-outline-variant/30 flex flex-col">
+<!-- Dual Axis Zero Line -->
+<div class="absolute top-1/2 left-0 w-full h-[1px] bg-outline-variant z-10"></div>
+<!-- Above Zero: Sales curves (Simplified SVG path for smooth curves) -->
+<div class="flex-1 relative">
+<svg class="absolute inset-0 w-full h-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<!-- Average Line (Dotted) -->
+<line stroke="#82746d" stroke-dasharray="2,2" stroke-width="1" x1="0" x2="100" y1="50" y2="50"></line>
+<!-- 2024 (light brown) -->
+<path d="M0,80 Q25,60 50,70 T100,55" fill="none" stroke="#d4c3ba" stroke-width="2"></path>
+<!-- 2025 (caramel) -->
+<path d="M0,70 Q25,40 50,60 T100,40" fill="none" stroke="#ffb869" stroke-width="2"></path>
+<!-- 2026 (espresso brown) -->
+<path d="M0,60 Q25,20 50,30 T100,10" fill="none" stroke="#553722" stroke-width="3"></path>
+<!-- Active Point -->
+<circle cx="75" cy="20" fill="#553722" r="4"></circle>
+</svg>
+<!-- Tooltip Mockup -->
+<div class="absolute top-2 left-[60%] bg-inverse-surface text-inverse-on-surface text-[9px] p-2 rounded shadow-lg z-20 pointer-events-none">
+<p class="font-bold">Октябрь 2026</p>
+<p>Продажи: 2.4 кг</p>
+<p>Остаток: 0.8 кг</p>
+</div>
+</div>
+<!-- Below Zero: Stock depletion bars -->
+<div class="flex-1 relative flex items-start gap-1 px-1 pt-[1px]">
+<div class="flex-1 bg-error/20 h-[30%] rounded-b-sm"></div>
+<div class="flex-1 bg-error/30 h-[50%] rounded-b-sm"></div>
+<div class="flex-1 bg-error/40 h-[70%] rounded-b-sm"></div>
+<div class="flex-1 bg-error/60 h-[90%] rounded-b-sm"></div>
+<div class="flex-1 bg-tertiary/40 h-[40%] rounded-b-sm border-t-2 border-tertiary"></div> <!-- Replenishment indicator -->
+<div class="flex-1 bg-error/20 h-[20%] rounded-b-sm"></div>
+<div class="flex-1 bg-error/40 h-[45%] rounded-b-sm"></div>
+</div>
+</div>
+<div class="flex justify-between mt-2 px-1">
+<span class="text-[9px] text-on-surface-variant font-label-caps">ЯНВ</span>
+<span class="text-[9px] text-on-surface-variant font-label-caps">ИЮН</span>
+<span class="text-[9px] text-on-surface-variant font-label-caps">ДЕК</span>
+</div>
+</div>
+<!-- Forecast Chart (Inventory Depletion) -->
+<div class="bg-surface-container-lowest rounded-xl p-4 border border-outline-variant/20 mb-4">
+<h3 class="text-sm font-bold text-primary mb-4">Прогноз остатков</h3>
+<div class="h-32 relative">
+<!-- ROP & Safety Stock Lines -->
+<div class="absolute top-[30%] left-0 w-full border-t border-dashed border-secondary/40">
+<span class="absolute -top-3 right-0 text-[8px] text-secondary font-bold">ROP (10 кг)</span>
+</div>
+<div class="absolute top-[70%] left-0 w-full border-t border-dashed border-error/40">
+<span class="absolute -top-3 right-0 text-[8px] text-error font-bold">SAFETY (2 кг)</span>
+</div>
+<!-- Depletion Line -->
+<svg class="absolute inset-0 w-full h-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<line stroke="#553722" stroke-width="2" x1="0" x2="80" y1="10" y2="100"></line>
+<!-- Recommendation Marker (Green) -->
+<line stroke="#004923" stroke-width="1" x1="30" x2="30" y1="0" y2="100"></line>
+<!-- Stockout Marker (Red) -->
+<line stroke="#ba1a1a" stroke-width="1" x1="80" x2="80" y1="0" y2="100"></line>
+</svg>
+<!-- Markers Labels -->
+<div class="absolute left-[30%] -top-2 -translate-x-1/2 flex flex-col items-center">
+<div class="w-1.5 h-1.5 bg-tertiary rounded-full"></div>
+<p class="text-[8px] font-bold text-tertiary bg-white px-1">24.09</p>
+</div>
+<div class="absolute left-[80%] -top-2 -translate-x-1/2 flex flex-col items-center">
+<div class="w-1.5 h-1.5 bg-error rounded-full"></div>
+<p class="text-[8px] font-bold text-error bg-white px-1">07.10</p>
+</div>
+</div>
+<div class="flex justify-between mt-1 text-[9px] text-on-surface-variant font-label-caps">
+<span>СЕГОДНЯ</span>
+<span>14 ДНЕЙ</span>
+<span>30 ДНЕЙ</span>
+</div>
+</div>
+</div>
+<!-- Recommendation Card (Sticky/Bottom) -->
+<div class="fixed bottom-16 left-0 w-[390px] px-4 py-3 bg-surface-container-high border-t border-outline-variant shadow-lg z-40">
+<div class="flex items-center justify-between gap-4">
+<div class="flex-1">
+<p class="text-[11px] leading-tight text-on-surface font-medium">
+                        Заказать <span class="text-secondary font-bold">10 кг</span> к <span class="font-bold">24.09.2026</span>, иначе дефицит <span class="text-error font-bold">07.10.2026</span>
+</p>
+</div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg text-xs font-bold whitespace-nowrap active:scale-95 transition-transform">
+                    Добавить в заказ
+                </button>
+</div>
+</div>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 w-[390px] z-50 flex justify-around items-center px-4 py-2 pb-safe bg-surface border-t border-outline-variant/10">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors px-4 py-1 rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-label-caps font-label-caps">Обзор</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary hover:bg-surface-container-low transition-colors px-4 py-1 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="text-label-caps font-label-caps">Товар</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors px-4 py-1 rounded-lg" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="text-label-caps font-label-caps">Заказ</span>
+</a>
+</nav>
+</main>
+</body></html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="ru"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #1B1714;
+            color: #f3f0ec;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-shadow {
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.4);
+        }
+        .glass-card {
+            background: rgba(49, 48, 46, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-highest": "#31302e",
+                      "surface-tint": "#eabda0",
+                      "on-primary-fixed-variant": "#5f402a",
+                      "on-secondary-fixed-variant": "#673d00",
+                      "background": "#1B1714",
+                      "primary-fixed": "#ffdcc6",
+                      "on-primary-fixed": "#2d1604",
+                      "inverse-primary": "#79573f",
+                      "secondary": "#ffb869",
+                      "surface-dim": "#1c1c1a",
+                      "error-container": "#93000a",
+                      "on-secondary-fixed": "#2c1700",
+                      "on-secondary-container": "#ffdcbb",
+                      "surface": "#1c1c1a",
+                      "on-surface": "#f3f0ec",
+                      "on-error": "#ffffff",
+                      "primary-container": "#6f4e37",
+                      "secondary-container": "#784700",
+                      "tertiary-fixed-dim": "#71dc92",
+                      "outline-variant": "#50453e",
+                      "secondary-fixed": "#ffdcbb",
+                      "secondary-fixed-dim": "#ffb869",
+                      "surface-container-lowest": "#141311",
+                      "tertiary-container": "#00391c",
+                      "outline": "#9c8e87",
+                      "on-primary-container": "#ffdcc6",
+                      "inverse-surface": "#f3f0ec",
+                      "inverse-on-surface": "#31302e",
+                      "primary-fixed-dim": "#eabda0",
+                      "on-background": "#f3f0ec",
+                      "on-secondary": "#4a2800",
+                      "surface-container-high": "#2b2927",
+                      "surface-container-low": "#201e1c",
+                      "on-tertiary-fixed": "#00210d",
+                      "on-primary": "#2d1604",
+                      "surface-variant": "#50453e",
+                      "on-surface-variant": "#d4c3ba",
+                      "surface-bright": "#3d3835",
+                      "on-tertiary": "#ffffff",
+                      "on-tertiary-fixed-variant": "#005229",
+                      "tertiary-fixed": "#8df9ac",
+                      "surface-container": "#252321",
+                      "on-tertiary-container": "#8df9ac",
+                      "error": "#ffb4ab",
+                      "tertiary": "#75e096",
+                      "primary": "#eabda0",
+                      "on-error-container": "#ffdad6"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container-margin": "20px",
+                      "stack-gap-md": "16px",
+                      "unit": "8px",
+                      "stack-gap-sm": "8px",
+                      "stack-gap-lg": "24px",
+                      "gutter": "16px",
+                      "card-padding": "20px"
+              },
+              "fontFamily": {
+                      "data-tabular": ["JetBrains Mono"],
+                      "display-lg": ["Inter"],
+                      "body-rg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "display-lg-mobile": ["Inter"],
+                      "label-caps": ["Inter"]
+              },
+              "fontSize": {
+                      "data-tabular": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                      "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-rg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "display-lg-mobile": ["26px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-rg selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-margin h-16 bg-surface-dim/80 backdrop-blur-md">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="coffee">coffee</span>
+<h1 class="text-headline-md font-headline-md font-bold text-primary">Контроль остатков и предзаказов</h1>
+</div>
+<button class="hover:opacity-80 transition-opacity active:scale-95 duration-100">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="account_circle">account_circle</span>
+</button>
+</header>
+<main class="pt-20 pb-24 px-container-margin">
+<!-- Quick Stats Bento Grid -->
+<section class="grid grid-cols-2 gap-4 mb-stack-gap-lg">
+<div class="col-span-2 glass-card rounded-xl p-card-padding flex flex-col gap-2">
+<span class="text-label-caps font-label-caps text-outline uppercase tracking-wider">Состояние склада</span>
+<div class="flex items-baseline gap-2">
+<span class="text-display-lg-mobile font-display-lg-mobile text-on-surface">84%</span>
+<span class="text-body-sm font-body-sm text-tertiary">В норме</span>
+</div>
+<div class="w-full bg-surface-variant h-2 rounded-full overflow-hidden mt-1">
+<div class="bg-tertiary h-full w-[84%] rounded-full"></div>
+</div>
+</div>
+<div class="glass-card rounded-xl p-card-padding flex flex-col gap-1">
+<span class="material-symbols-outlined text-secondary text-headline-md" data-icon="shopping_basket">shopping_basket</span>
+<span class="text-label-caps font-label-caps text-outline mt-2 uppercase">Заказы</span>
+<span class="text-headline-md font-headline-md text-on-surface">12</span>
+</div>
+<div class="glass-card rounded-xl p-card-padding flex flex-col gap-1">
+<span class="material-symbols-outlined text-error text-headline-md" data-icon="warning">warning</span>
+<span class="text-label-caps font-label-caps text-outline mt-2 uppercase">Критично</span>
+<span class="text-headline-md font-headline-md text-on-surface">3</span>
+</div>
+</section>
+<!-- Inventory List Section -->
+<section class="flex flex-col gap-stack-gap-md">
+<div class="flex justify-between items-end">
+<h2 class="text-headline-md font-headline-md text-on-surface">Актуальные позиции</h2>
+<span class="text-label-caps font-label-caps text-primary cursor-pointer hover:underline">См. все</span>
+</div>
+<!-- Inventory Item Card 1: Warning State -->
+<div class="glass-card rounded-xl p-card-padding flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-primary-container/20 flex items-center justify-center text-primary-fixed">
+<span class="material-symbols-outlined" data-icon="local_cafe">local_cafe</span>
+</div>
+<div class="flex-1">
+<h3 class="text-body-rg font-bold text-on-surface">Эспрессо Бленд</h3>
+<div class="flex justify-between items-center mt-1">
+<span class="text-body-sm font-body-sm text-on-surface-variant">2.4 кг / 10 кг</span>
+<span class="text-body-sm font-data-tabular text-secondary">Низкий остаток</span>
+</div>
+<div class="w-full bg-surface-variant h-1.5 rounded-full mt-2">
+<div class="bg-secondary h-full w-[24%] rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Inventory Item Card 2: Critical State -->
+<div class="glass-card rounded-xl p-card-padding flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-error-container/20 flex items-center justify-center text-error">
+<span class="material-symbols-outlined" data-icon="water_drop">water_drop</span>
+</div>
+<div class="flex-1">
+<h3 class="text-body-rg font-bold text-on-surface">Молоко Цельное 3.2%</h3>
+<div class="flex justify-between items-center mt-1">
+<span class="text-body-sm font-body-sm text-on-surface-variant">4 л / 40 л</span>
+<span class="text-body-sm font-data-tabular text-error">Критично</span>
+</div>
+<div class="w-full bg-surface-variant h-1.5 rounded-full mt-2">
+<div class="bg-error h-full w-[10%] rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Inventory Item Card 3: OK State -->
+<div class="glass-card rounded-xl p-card-padding flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center text-outline">
+<span class="material-symbols-outlined" data-icon="bakery_dining">bakery_dining</span>
+</div>
+<div class="flex-1">
+<h3 class="text-body-rg font-bold text-on-surface">Круассаны Classic</h3>
+<div class="flex justify-between items-center mt-1">
+<span class="text-body-sm font-body-sm text-on-surface-variant">18 шт / 20 шт</span>
+<span class="text-body-sm font-data-tabular text-tertiary">В наличии</span>
+</div>
+<div class="w-full bg-surface-variant h-1.5 rounded-full mt-2">
+<div class="bg-tertiary h-full w-[90%] rounded-full"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Dynamic Chart Area -->
+<section class="mt-stack-gap-lg">
+<div class="glass-card rounded-xl p-card-padding">
+<h3 class="text-label-caps font-label-caps text-outline mb-4 uppercase">Динамика заказов (7дн)</h3>
+<div class="h-32 flex items-end justify-between gap-2 px-2">
+<div class="w-full bg-primary-container/40 h-[40%] rounded-t-sm"></div>
+<div class="w-full bg-primary-container/40 h-[60%] rounded-t-sm"></div>
+<div class="w-full bg-primary-container/40 h-[35%] rounded-t-sm"></div>
+<div class="w-full bg-primary-container/40 h-[85%] rounded-t-sm"></div>
+<div class="w-full bg-secondary-container h-[95%] rounded-t-sm"></div>
+<div class="w-full bg-primary-container/40 h-[55%] rounded-t-sm"></div>
+<div class="w-full bg-primary-container/40 h-[70%] rounded-t-sm"></div>
+</div>
+<div class="flex justify-between mt-2 text-[10px] font-label-caps text-outline px-1">
+<span>ПН</span><span>ВТ</span><span>СР</span><span>ЧТ</span><span>ПТ</span><span>СБ</span><span>ВС</span>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-surface-dim rounded-t-xl shadow-[0px_-4px_20px_rgba(0,0,0,0.5)]">
+<button class="flex flex-col items-center justify-center text-secondary hover:bg-surface-container-highest transition-colors active:scale-90 duration-200">
+<span class="material-symbols-outlined" data-icon="dashboard" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="text-label-caps font-label-caps mt-1">Обзор</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-highest transition-colors active:scale-90 duration-200">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="text-label-caps font-label-caps mt-1">Товар</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-highest transition-colors active:scale-90 duration-200">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span class="text-label-caps font-label-caps mt-1">Заказ</span>
+</button>
+</nav>
+<!-- FAB (Suppressed based on context rules, but included for Dashboard functionality if needed) -->
+<div class="fixed right-6 bottom-24 z-40">
+<button class="w-14 h-14 bg-secondary-container text-on-secondary-container rounded-xl flex items-center justify-center shadow-lg active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+<script>
+        // Micro-interaction for stock bars
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('touchstart', () => {
+                card.style.transform = 'scale(0.98)';
+                card.style.transition = 'transform 0.1s ease';
+            });
+            card.addEventListener('touchend', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html class="light" lang="ru"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Контроль остатков и предзаказов - Обзор</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Shared Style Guidance / Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-highest": "#e5e2de",
+                    "surface-tint": "#79573f",
+                    "on-primary-fixed-variant": "#5f402a",
+                    "on-secondary-fixed-variant": "#673d00",
+                    "background": "#fcf9f5",
+                    "primary-fixed": "#ffdcc6",
+                    "on-primary-fixed": "#2d1604",
+                    "inverse-primary": "#eabda0",
+                    "secondary": "#875208",
+                    "surface-dim": "#dcdad6",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed": "#2c1700",
+                    "on-secondary-container": "#784700",
+                    "surface": "#fcf9f5",
+                    "on-surface": "#1c1c1a",
+                    "on-error": "#ffffff",
+                    "primary-container": "#6f4e37",
+                    "secondary-container": "#ffb869",
+                    "tertiary-fixed-dim": "#71dc92",
+                    "outline-variant": "#d4c3ba",
+                    "secondary-fixed": "#ffdcbb",
+                    "secondary-fixed-dim": "#ffb869",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-container": "#006332",
+                    "outline": "#82746d",
+                    "on-primary-container": "#eec1a4",
+                    "inverse-surface": "#31302e",
+                    "inverse-on-surface": "#f3f0ec",
+                    "primary-fixed-dim": "#eabda0",
+                    "on-background": "#1c1c1a",
+                    "on-secondary": "#ffffff",
+                    "surface-container-high": "#ebe8e4",
+                    "surface-container-low": "#f6f3ef",
+                    "on-tertiary-fixed": "#00210d",
+                    "on-primary": "#ffffff",
+                    "surface-variant": "#e5e2de",
+                    "on-surface-variant": "#50453e",
+                    "surface-bright": "#fcf9f5",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#005229",
+                    "tertiary-fixed": "#8df9ac",
+                    "surface-container": "#f0ede9",
+                    "on-tertiary-container": "#75e096",
+                    "error": "#ba1a1a",
+                    "tertiary": "#004923",
+                    "primary": "#553722",
+                    "on-error-container": "#93000a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-margin": "20px",
+                    "stack-gap-md": "16px",
+                    "unit": "8px",
+                    "stack-gap-sm": "8px",
+                    "stack-gap-lg": "24px",
+                    "gutter": "16px",
+                    "card-padding": "20px"
+            },
+            "fontFamily": {
+                    "data-tabular": ["JetBrains Mono"],
+                    "display-lg": ["Inter"],
+                    "body-rg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "display-lg-mobile": ["Inter"],
+                    "label-caps": ["Inter"]
+            },
+            "fontSize": {
+                    "data-tabular": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-rg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "display-lg-mobile": ["26px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Inter', sans-serif;
+        }
+        .card-shadow {
+            box-shadow: 0px 4px 20px rgba(111, 78, 55, 0.08);
+        }
+        .bg-pattern {
+            background-image: radial-gradient(#6f4e37 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+            opacity: 0.03;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-margin h-16 bg-surface dark:bg-surface-dim">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 flex items-center justify-center bg-primary-container rounded-lg text-on-primary-container">
+<span class="material-symbols-outlined">coffee</span>
+</div>
+<h1 class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim">Контроль остатков</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:opacity-80 transition-opacity active:scale-95 duration-100">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim">account_circle</span>
+</button>
+</header>
+<main class="pt-20 px-container-margin space-y-stack-gap-lg">
+<!-- Background Decorative Element -->
+<div class="fixed inset-0 bg-pattern pointer-events-none"></div>
+<!-- Greeting -->
+<section class="relative">
+<h2 class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-on-surface">Доброе утро, Бариста</h2>
+<p class="font-body-rg text-body-rg text-on-surface-variant mt-1">Вот текущее состояние вашего склада на сегодня.</p>
+</section>
+<!-- Summary Card (Critical Attention) -->
+<section class="relative">
+<div class="bg-surface-container-lowest p-card-padding rounded-xl card-shadow border-l-4 border-error overflow-hidden group">
+<div class="flex justify-between items-start">
+<div>
+<p class="font-label-caps text-label-caps text-error uppercase mb-2">Внимание</p>
+<h3 class="font-headline-md text-headline-md text-on-surface">3 товара требуют внимания</h3>
+</div>
+<div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center text-error">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+</div>
+<div class="mt-4 h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-error w-3/4 animate-[shimmer_2s_infinite]"></div>
+</div>
+<div class="mt-3 flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px]">trending_down</span>
+<span>Запасы истощаются быстрее, чем обычно</span>
+</div>
+</div>
+</section>
+<!-- Critical Items List -->
+<section class="space-y-stack-gap-md">
+<div class="flex justify-between items-center">
+<h4 class="font-headline-md text-headline-md text-on-surface">Критические позиции</h4>
+<button class="font-label-caps text-label-caps text-secondary hover:underline">СМОТРЕТЬ ВСЕ</button>
+</div>
+<!-- Item 1: Coffee Beans -->
+<div class="bg-surface-container-lowest p-card-padding rounded-xl card-shadow flex gap-4 items-center">
+<div class="w-16 h-16 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A high-quality close-up photograph of roasted espresso coffee beans in a sleek ceramic container. The lighting is warm and soft, characteristic of a premium boutique cafe setting, emphasizing the oily texture and rich brown tones of the beans. The background is a clean, airy kitchen workspace with minimalist wooden accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBTzMwzPr5y94H6h1TKDsliNYExQrnMAqqzxGaL7TRz-mKsVo5jcLombirH7HFQRHLrN4g6mc--wBO6ygGf8vrX0EMJ8xMuqhIj6ZWnGfiudE4Fy1YPhUDyQ6nUSj53JrsMHVMIJXLSPlJdnTHXlvoVa7AWL01iame287YqKYtvNVA2ngYpyEIRW0hPMt-tHsswVGc7Ny_xkQJhm8y5VVMnS3TAhSZ8xtNndRdZxSF3Jyxi_Sy4DC_pGki2SPWXpxhti0guBqw4Vs"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h5 class="font-headline-md text-headline-md text-on-surface truncate">Кофе в зернах</h5>
+<span class="px-2 py-1 bg-error-container text-error font-label-caps text-[10px] rounded uppercase">Критично</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-2">Осталось на 2 дня</p>
+<div class="flex items-center gap-3">
+<div class="flex-1 h-1.5 bg-error-container rounded-full overflow-hidden">
+<div class="h-full bg-error w-[15%]"></div>
+</div>
+<span class="font-data-tabular text-data-tabular text-on-surface">1.2 кг</span>
+</div>
+</div>
+<div class="hidden md:block w-24 h-12">
+<!-- Mini trend graph placeholder -->
+<canvas class="mini-trend-chart" data-color="#ba1a1a"></canvas>
+</div>
+</div>
+<!-- Item 2: Cups -->
+<div class="bg-surface-container-lowest p-card-padding rounded-xl card-shadow flex gap-4 items-center">
+<div class="w-16 h-16 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A stack of clean, minimalist white paper coffee cups with sustainable brown sleeves arranged neatly on a polished white counter. The scene is illuminated by natural morning sunlight, creating soft, long shadows and a calm, focused atmosphere in a modern cafe. The aesthetic is professional, tidy, and high-end." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRZDXC-O8sJWHe6HT5w5UVazSrciO_qO3yzKGL3iK5DsOGK9iqR_pCqn6EB7U7UjjDvEAEi0pVsS-RxbO1nVRvPhkGnj2k6T5Hq5RxrcliP10TuQs8Zp-ZmQES9wHQeVIi7GAHy7h1VDEow--fVsplx_Uaj8unBnq5iSwKkYUL5em8mZkVvv4ZcWBxI3_pODVclAJIo1RqkSbYhuG7VMxpCSS-eL6I43DsEZ7Em7d4yvDmsz2UjDrN2UlJ8tFpiYAKJmORYuSHQ-I"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h5 class="font-headline-md text-headline-md text-on-surface truncate">Бумажные стаканы</h5>
+<span class="px-2 py-1 bg-secondary-container text-on-secondary-container font-label-caps text-[10px] rounded uppercase">Средне</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-2">Осталось на 5 дней</p>
+<div class="flex items-center gap-3">
+<div class="flex-1 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[40%]"></div>
+</div>
+<span class="font-data-tabular text-data-tabular text-on-surface">120 шт</span>
+</div>
+</div>
+<div class="hidden md:block w-24 h-12">
+<canvas class="mini-trend-chart" data-color="#875208"></canvas>
+</div>
+</div>
+</section>
+<!-- Analytics Preview Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-stack-gap-md">
+<div class="bg-primary-container text-on-primary-container p-card-padding rounded-xl card-shadow relative overflow-hidden h-32">
+<div class="relative z-10">
+<p class="font-label-caps text-label-caps text-on-primary-container opacity-80 uppercase">Прогноз заказа</p>
+<p class="font-headline-md text-headline-md mt-1">Четверг, 10:00</p>
+<button class="mt-2 text-primary-fixed-dim font-body-sm text-body-sm flex items-center gap-1 hover:opacity-80">
+                        Создать черновик <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+<span class="material-symbols-outlined absolute -bottom-4 -right-4 text-9xl opacity-10">inventory_2</span>
+</div>
+<div class="bg-surface-container-low p-card-padding rounded-xl card-shadow h-32">
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase">Расход молока</p>
+<div class="flex items-end gap-1 mt-4 h-12">
+<div class="flex-1 bg-secondary opacity-20 h-[40%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary opacity-40 h-[60%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary opacity-60 h-[50%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary h-[90%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary opacity-50 h-[70%] rounded-t-sm"></div>
+</div>
+<p class="font-data-tabular text-data-tabular text-secondary mt-1 text-right">+12% к норме</p>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-surface dark:bg-surface-dim shadow-[0px_-4px_20px_rgba(111,78,55,0.08)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-low transition-colors px-4 py-1 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="text-label-caps font-label-caps mt-1">Обзор</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-low transition-colors px-4 py-1 rounded-lg" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-label-caps font-label-caps mt-1">Товар</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-low transition-colors px-4 py-1 rounded-lg" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="text-label-caps font-label-caps mt-1">Заказ</span>
+</a>
+</nav>
+<!-- Floating Action Button (Suppressed as per rules for Details, but visible for Home/Dashboard) -->
+<button class="fixed right-6 bottom-24 w-14 h-14 bg-secondary text-on-secondary rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform z-40">
+<span class="material-symbols-outlined text-2xl">add</span>
+</button>
+<script>
+        // Micro-interactions and Canvas Charts
+        window.addEventListener('DOMContentLoaded', () => {
+            const canvases = document.querySelectorAll('.mini-trend-chart');
+            canvases.forEach(canvas => {
+                const ctx = canvas.getContext('2d');
+                const color = canvas.getAttribute('data-color') || '#875208';
+                
+                // Set display size
+                canvas.width = 100;
+                canvas.height = 40;
+                
+                ctx.beginPath();
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.lineJoin = 'round';
+                
+                const points = [35, 30, 32, 20, 25, 10, 5];
+                const stepX = canvas.width / (points.length - 1);
+                
+                ctx.moveTo(0, points[0]);
+                points.forEach((p, i) => {
+                    ctx.lineTo(i * stepX, p);
+                });
+                ctx.stroke();
+                
+                // Add gradient fill
+                const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                gradient.addColorStop(0, color + '33');
+                gradient.addColorStop(1, color + '00');
+                ctx.lineTo(canvas.width, canvas.height);
+                ctx.lineTo(0, canvas.height);
+                ctx.fillStyle = gradient;
+                ctx.fill();
+            });
+
+            // Smooth interactions for cards
+            const cards = document.querySelectorAll('.card-shadow');
+            cards.forEach(card => {
+                card.addEventListener('touchstart', () => {
+                    card.style.transform = 'scale(0.98)';
+                });
+                card.addEventListener('touchend', () => {
+                    card.style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>
+</body></html>

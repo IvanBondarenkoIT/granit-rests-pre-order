@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html class="light" lang="ru"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #875208;
+            cursor: pointer;
+            border: 4px solid #ffffff;
+            box-shadow: 0 2px 8px rgba(111, 78, 55, 0.2);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e5e2de;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed": "#2d1604",
+                        "surface-dim": "#dcdad6",
+                        "on-tertiary-container": "#75e096",
+                        "outline-variant": "#d4c3ba",
+                        "on-surface": "#1c1c1a",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#ffb869",
+                        "surface-container-highest": "#e5e2de",
+                        "surface-container-low": "#f6f3ef",
+                        "on-secondary-fixed-variant": "#673d00",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#006332",
+                        "on-secondary-container": "#784700",
+                        "on-primary-container": "#eec1a4",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#1c1c1a",
+                        "inverse-primary": "#eabda0",
+                        "tertiary-fixed": "#8df9ac",
+                        "primary": "#553722",
+                        "on-tertiary-fixed": "#00210d",
+                        "outline": "#82746d",
+                        "surface-bright": "#fcf9f5",
+                        "secondary-fixed": "#ffdcbb",
+                        "primary-container": "#6f4e37",
+                        "inverse-on-surface": "#f3f0ec",
+                        "primary-fixed": "#ffdcc6",
+                        "error": "#ba1a1a",
+                        "surface-container": "#f0ede9",
+                        "secondary-container": "#ffb869",
+                        "on-tertiary-fixed-variant": "#005229",
+                        "background": "#fcf9f5",
+                        "surface-tint": "#79573f",
+                        "tertiary": "#004923",
+                        "surface": "#fcf9f5",
+                        "surface-variant": "#e5e2de",
+                        "on-error": "#ffffff",
+                        "surface-container-high": "#ebe8e4",
+                        "secondary": "#875208",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#2c1700",
+                        "primary-fixed-dim": "#eabda0",
+                        "tertiary-fixed-dim": "#71dc92",
+                        "on-primary-fixed-variant": "#5f402a",
+                        "on-surface-variant": "#50453e",
+                        "inverse-surface": "#31302e",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "12px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "container-margin": "20px",
+                        "stack-gap-lg": "24px",
+                        "gutter": "16px",
+                        "stack-gap-sm": "8px",
+                        "stack-gap-md": "16px",
+                        "card-padding": "20px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "data-tabular": ["JetBrains Mono"],
+                        "display-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-rg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "display-lg-mobile": ["26px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "data-tabular": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-rg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen pb-32">
+<!-- Top AppBar (from JSON) -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-margin h-16 bg-surface dark:bg-surface-dim">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="coffee">coffee</span>
+<h1 class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim">Контроль остатков и предзаказов</h1>
+</div>
+<button class="hover:opacity-80 transition-opacity active:scale-95 duration-100">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="account_circle">account_circle</span>
+</button>
+</header>
+<main class="pt-20 px-container-margin flex flex-col gap-stack-gap-lg max-w-4xl mx-auto">
+<!-- Order Horizon Banner -->
+<section class="bg-primary-container rounded-xl p-card-padding text-on-primary shadow-[0px_4px_20px_rgba(111,78,55,0.08)] relative overflow-hidden">
+<div class="relative z-10">
+<p class="font-label-caps text-label-caps opacity-80 mb-2 uppercase tracking-widest">Информация</p>
+<h2 class="text-headline-md font-headline-md mb-6">Ближайший общий заказ: 13.08.2026</h2>
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<label class="font-label-caps text-label-caps">Горизонт покрытия, недель</label>
+<span class="font-data-tabular text-data-tabular bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full" id="range-val">4</span>
+</div>
+<input class="w-full h-2 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-secondary" max="8" min="2" oninput="document.getElementById('range-val').innerText = this.value" type="range" value="4"/>
+<div class="flex justify-between text-[10px] font-label-caps opacity-60">
+<span>2 НЕД</span>
+<span>8 НЕД</span>
+</div>
+</div>
+</div>
+<!-- Atmospheric Pattern -->
+<div class="absolute right-[-20px] top-[-20px] opacity-10">
+<span class="material-symbols-outlined text-[120px]" data-icon="inventory">inventory</span>
+</div>
+</section>
+<!-- Product List Section -->
+<section class="flex flex-col gap-stack-gap-md">
+<div class="flex justify-between items-center">
+<h3 class="text-headline-md font-headline-md">Позиции к заказу</h3>
+<span class="text-body-sm text-on-surface-variant">Сортировка: Срочность</span>
+</div>
+<!-- List of selectable product cards -->
+<div class="flex flex-col gap-4">
+<!-- Critical Item 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-[0px_4px_20px_rgba(111,78,55,0.08)] border-l-4 border-error flex items-center gap-4 transition-all hover:translate-x-1">
+<input checked="" class="w-6 h-6 rounded border-outline-variant text-secondary focus:ring-secondary cursor-pointer" type="checkbox"/>
+<div class="flex-grow">
+<h4 class="font-headline-md text-[16px]">Espresso Blend "Velvet"</h4>
+<div class="flex items-center gap-2 mt-1">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+<span class="text-body-sm text-error font-medium">запас на 0.5 недель</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<label class="text-[10px] font-label-caps text-outline uppercase">Заказать (кг)</label>
+<input class="w-20 bg-surface-container-low border-none rounded-lg text-center font-data-tabular text-data-tabular focus:ring-2 focus:ring-secondary" type="number" value="25"/>
+</div>
+</div>
+<!-- Critical Item 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-[0px_4px_20px_rgba(111,78,55,0.08)] border-l-4 border-error flex items-center gap-4 transition-all hover:translate-x-1">
+<input checked="" class="w-6 h-6 rounded border-outline-variant text-secondary focus:ring-secondary cursor-pointer" type="checkbox"/>
+<div class="flex-grow">
+<h4 class="font-headline-md text-[16px]">Молоко 3.2% (Ультрапаст.)</h4>
+<div class="flex items-center gap-2 mt-1">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="text-body-sm text-error font-medium">запас на 1 неделю</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<label class="text-[10px] font-label-caps text-outline uppercase">Заказать (шт)</label>
+<input class="w-20 bg-surface-container-low border-none rounded-lg text-center font-data-tabular text-data-tabular focus:ring-2 focus:ring-secondary" type="number" value="120"/>
+</div>
+</div>
+<!-- Warning Item -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-[0px_4px_20px_rgba(111,78,55,0.08)] border-l-4 border-secondary-fixed-dim flex items-center gap-4 transition-all hover:translate-x-1">
+<input checked="" class="w-6 h-6 rounded border-outline-variant text-secondary focus:ring-secondary cursor-pointer" type="checkbox"/>
+<div class="flex-grow">
+<h4 class="font-headline-md text-[16px]">Бумажные стаканы 300мл</h4>
+<div class="flex items-center gap-2 mt-1">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-body-sm text-on-surface-variant font-medium">запас на 2.5 недель</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<label class="text-[10px] font-label-caps text-outline uppercase">Заказать (уп)</label>
+<input class="w-20 bg-surface-container-low border-none rounded-lg text-center font-data-tabular text-data-tabular focus:ring-2 focus:ring-secondary" type="number" value="10"/>
+</div>
+</div>
+<!-- Normal Item -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-[0px_4px_20px_rgba(111,78,55,0.08)] border-l-4 border-tertiary flex items-center gap-4 transition-all hover:translate-x-1">
+<input class="w-6 h-6 rounded border-outline-variant text-secondary focus:ring-secondary cursor-pointer" type="checkbox"/>
+<div class="flex-grow">
+<h4 class="font-headline-md text-[16px]">Сахар порционный</h4>
+<div class="flex items-center gap-2 mt-1">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="text-body-sm text-on-surface-variant font-medium">запас на 4 недели</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<label class="text-[10px] font-label-caps text-outline uppercase">Заказать (кор)</label>
+<input class="w-20 bg-surface-container-low border-none rounded-lg text-center font-data-tabular text-data-tabular focus:ring-2 focus:ring-secondary" type="number" value="2"/>
+</div>
+</div>
+<!-- Normal Item -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-[0px_4px_20px_rgba(111,78,55,0.08)] border-l-4 border-tertiary flex items-center gap-4 transition-all hover:translate-x-1">
+<input checked="" class="w-6 h-6 rounded border-outline-variant text-secondary focus:ring-secondary cursor-pointer" type="checkbox"/>
+<div class="flex-grow">
+<h4 class="font-headline-md text-[16px]">Овсяное молоко (Barista)</h4>
+<div class="flex items-center gap-2 mt-1">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="text-body-sm text-on-surface-variant font-medium">запас на 3 недели</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<label class="text-[10px] font-label-caps text-outline uppercase">Заказать (шт)</label>
+<input class="w-20 bg-surface-container-low border-none rounded-lg text-center font-data-tabular text-data-tabular focus:ring-2 focus:ring-secondary" type="number" value="48"/>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Sticky Summary Bar -->
+<div class="fixed bottom-[72px] left-0 w-full z-40 px-container-margin py-4 bg-surface/80 backdrop-blur-md flex flex-col gap-3">
+<div class="flex justify-between items-center px-2">
+<span class="text-body-rg font-medium">Позиций: <span class="font-data-tabular">5</span></span>
+<span class="text-headline-md font-bold text-secondary">Сумма: <span class="font-data-tabular">42 500 ₽</span></span>
+</div>
+<button class="w-full h-14 bg-primary text-on-primary rounded-xl font-headline-md flex items-center justify-center gap-2 active:scale-95 transition-transform shadow-lg">
+<span class="material-symbols-outlined" data-icon="shopping_cart_checkout">shopping_cart_checkout</span>
+            Оформить заказ
+        </button>
+</div>
+<!-- Bottom Navigation Bar (from JSON) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-surface dark:bg-surface-dim shadow-[0px_-4px_20px_rgba(111,78,55,0.08)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-low transition-colors p-2 rounded-lg active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-label-caps font-label-caps">Обзор</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-low transition-colors p-2 rounded-lg active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="text-label-caps font-label-caps">Товар</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-low transition-colors p-2 rounded-lg active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart" style="font-variation-settings: 'FILL' 1;">shopping_cart</span>
+<span class="text-label-caps font-label-caps">Заказ</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for input change highlights
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.parentElement.classList.add('ring-2', 'ring-secondary-container');
+            });
+            input.addEventListener('blur', function() {
+                this.parentElement.parentElement.classList.remove('ring-2', 'ring-secondary-container');
+            });
+        });
+    </script>
+</body></html>

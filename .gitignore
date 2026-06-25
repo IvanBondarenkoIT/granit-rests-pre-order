@@ -1,0 +1,23 @@
+# Окружение
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Секреты и конфиг
+.env
+
+# Локальные данные / БД / кэши
+data/
+*.sqlite3
+*.parquet
+
+# Локальная копия боевой БД (большой файл)
+granit bd copy/
+
+# Инструменты (Firebird embedded, разовые пробинги)
+tools/
+
+# IDE
+.idea/
+.vscode/
