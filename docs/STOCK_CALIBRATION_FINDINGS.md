@@ -89,8 +89,8 @@ Probe на локальной GDB (`OURORGNID=12978`):
 ## Следующие шаги
 
 - [x] SQL отчёта → `docs/STOCK_REPORT_SQL.md`
-- [ ] `tools/stock_scan_granit_fr3.py` + `--report-qend` в `stock_reconcile.py`
-- [ ] `OURORGNID=12978` в `.env.example`
+- [x] `tools/stock_scan_granit_fr3.py` + `--report-date` в `stock_reconcile.py`
+- [x] `OURORGNID=12978` в `.env.example`
 - [ ] При необходимости — точечная сверка через Proxy API по DLSC002
 - [ ] Уточнить GOODS.ID для «Pura» в отчёте Coffee blend
 

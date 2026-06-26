@@ -16,7 +16,8 @@ data/
 granit bd copy/
 
 # Инструменты (Firebird embedded, разовые пробинги)
-tools/
+tools/*
+!tools/stock_*.py
 
 # IDE
 .idea/

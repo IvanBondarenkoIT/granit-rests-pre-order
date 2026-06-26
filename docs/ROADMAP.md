@@ -21,6 +21,7 @@
 - [x] **G3 MOQ:** без округления; расчётное qty как есть; упаковку — вручную при заказе.
 - [x] **A1:** «Страх.остаток 300/0/3» → рабочее число = `GOODS.SQNT` (300).
 - [x] **Расходники (inflow):** Bag paper, Cup 12/8/4 oz, Sugar — спрос по приходам GDDKT (`demand_source=inflow`).
+- [x] **Калибровка остатков:** SQL отчёта Granit (`GddDt_MoveGoodsAll`), benchmark, `report_qend`; ETL — леджер GDDKT.
 - [ ] Точный исторический on-hand → censored demand.
 - [ ] PostgreSQL, Proxy API инкремент.
 - [ ] **Этап 8 — UI Stitch (mobile-first)** — gate: `docs/TESTING.md`
