@@ -9,6 +9,7 @@ import pandas as pd
 from src.analysis import classify
 from src.analysis import forecast as fc
 from src.analysis import inventory as inv
+from src.analysis import replenishment as rep
 from src.config import SETTINGS
 from src.storage import db
 
@@ -30,6 +31,18 @@ def compute_for_item(prod_row: pd.Series, demand: pd.DataFrame,
     dclass = classify.classify(demand["true_demand"]) if not demand.empty \
         else classify.DemandClass("new", float("inf"), 0.0, 0)
 
+    rep_stats = rep.load_stats_map().get(prod_row["product_key"])
+    pre_res = inv.compute(
+        demand=demand if not demand.empty else _empty_demand(),
+        current_stock=current_stock,
+        as_of=as_of,
+        lead_time_weeks=SETTINGS.default_lead_time_weeks,
+        service_level=SETTINGS.service_level,
+        safety_stock_target=sqnt,
+        season_window=SETTINGS.season_window_weeks,
+    )
+    coverage = rep.order_cycle_weeks(rep_stats, typical_batch, pre_res.weekly_consumption)
+
     res = inv.compute(
         demand=demand if not demand.empty else _empty_demand(),
         current_stock=current_stock,
@@ -38,6 +51,7 @@ def compute_for_item(prod_row: pd.Series, demand: pd.DataFrame,
         service_level=SETTINGS.service_level,
         safety_stock_target=sqnt,
         season_window=SETTINGS.season_window_weeks,
+        coverage_weeks=coverage,
     )
     unit_price = prod_row.get("unit_purchase_price_gel")
     est_cost = None
@@ -54,6 +68,10 @@ def compute_for_item(prod_row: pd.Series, demand: pd.DataFrame,
         "lead_time_weeks": res.lead_time_weeks,
         "safety_stock_calc": res.safety_stock_calc,
         "reorder_point": res.reorder_point,
+        "order_cycle_weeks": round(coverage, 2),
+        "is_urgent": int(
+            res.reorder_date is not None and res.reorder_date.normalize() <= as_of
+        ),
         "weeks_to_stockout": res.weeks_to_stockout,
         "depletion_date": res.depletion_date.date().isoformat() if res.depletion_date is not None else None,
         "reorder_date": res.reorder_date.date().isoformat() if res.reorder_date is not None else None,
@@ -71,10 +89,16 @@ def _empty_demand() -> pd.DataFrame:
 def run(as_of: pd.Timestamp | None = None) -> pd.DataFrame:
     products = db.read_df("products")
     weekly_demand = db.read_df("weekly_demand")
+    weekly_stock = db.read_df("weekly_stock") if db.table_exists("weekly_stock") else pd.DataFrame()
+    rows = [compute_for_item(r, _demand_of(r["product_key"], weekly_demand), as_of)
+            for _, r in products.iterrows()]
+    rec = pd.DataFrame(rows)
+    rep.run_from_data(products, weekly_stock, rec)
     rows = [compute_for_item(r, _demand_of(r["product_key"], weekly_demand), as_of)
             for _, r in products.iterrows()]
     rec = pd.DataFrame(rows)
     db.write_df(rec, "recommendations")
+    rep.run_from_data(products, weekly_stock, rec)
     print(f"Рекомендации рассчитаны: {len(rec)} позиций -> таблица recommendations")
     return rec
 

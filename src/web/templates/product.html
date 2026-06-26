@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}{{ product.label }} — Granit{% endblock %}
+{% block header %}Товар{% endblock %}
+
+{% block content %}
+{% if not has_product %}
+<div class="card">Нет данных</div>
+{% else %}
+
+<form method="get" class="mb-4">
+  <label class="text-xs font-bold uppercase text-[#50453e]">Позиция</label>
+  <select name="key" onchange="this.form.submit()" class="w-full mt-1 rounded-lg border border-[#d4c3ba] bg-white px-3 py-2 text-sm">
+    {% for p in products %}
+    <option value="{{ p.product_key }}" {% if p.product_key == product.product_key %}selected{% endif %}>{{ p.label }}</option>
+    {% endfor %}
+  </select>
+</form>
+
+<div class="grid grid-cols-4 gap-2 mb-4">
+  <div class="metric-box"><div class="metric-val">{{ stock_fmt }}</div><div class="metric-lbl">Остаток</div></div>
+  <div class="metric-box"><div class="metric-val" id="metric-consumption">{{ consumption_fmt }}</div><div class="metric-lbl">Расход/нед</div></div>
+  <div class="metric-box"><div class="metric-val text-xs" id="metric-depletion">{{ depletion_date }}</div><div class="metric-lbl">Кончится</div></div>
+  <div class="metric-box"><div class="metric-val" id="metric-qty">{{ qty_fmt }}</div><div class="metric-lbl" title="Срочный объём заказа">К заказу</div></div>
+</div>
+
+<p class="text-xs text-[#50453e] mb-3" id="policy-note">Точка заказа (ROP): <b id="metric-rop">{{ rop_fmt }}</b> · {{ policy_note }}</p>
+
+{% if replenishment %}
+<div class="card mb-4 text-sm">
+  <h3 class="font-semibold text-[#553722] mb-2">История пополнений</h3>
+  <div class="grid grid-cols-2 gap-2 text-[#50453e]">
+    <div>Приходов: <b>{{ replenishment.order_count or 0 }}</b></div>
+    <div>Цикл заказа: <b>{{ replenishment.order_cycle_weeks or '—' }}</b> нед</div>
+    <div>Типичная партия: <b>{{ replenishment.median_batch or '—' }}</b> {{ product.unit }}</div>
+    <div>Интервал (мед.): <b>{{ replenishment.median_interval_weeks or '—' }}</b> нед</div>
+    <div class="col-span-2">Последний приход: <b>{{ replenishment.last_order_date or '—' }}</b>
+      {% if replenishment.last_order_qty %} · {{ replenishment.last_order_qty }} {{ product.unit }}{% endif %}
+    </div>
+    <div class="col-span-2 text-[10px] text-[#82746d]">{{ replenishment.data_note }}</div>
+  </div>
+</div>
+{% endif %}
+
+<div class="flex gap-2 mb-3">
+  <a href="{{ url_for('product.index', key=product.product_key, chart='season') }}" class="chip-btn {% if chart == 'season' %}active{% endif %}">Сезон</a>
+  <a href="{{ url_for('product.index', key=product.product_key, chart='stock') }}" class="chip-btn {% if chart == 'stock' %}active{% endif %}">Остаток</a>
+  <a href="{{ url_for('product.index', key=product.product_key, chart='forecast') }}" class="chip-btn {% if chart == 'forecast' %}active{% endif %}">Прогноз</a>
+</div>
+
+<p class="text-xs text-[#50453e] mb-2">{{ chart_caption }}</p>
+{% if chart == 'season' %}
+<p class="text-[10px] text-[#82746d] mb-2">Клик по году — скрыть линию; средняя и расход/нед пересчитаются. Подсказка: дата недели и объём.</p>
+{% endif %}
+<div class="card p-2"><canvas id="mainChart" height="220"></canvas></div>
+
+<div class="card mt-4 bg-[#553722] text-white" id="summary-box">
+  <p class="font-semibold">При расходе <span id="summary-consumption">{{ consumption_fmt }}</span>/нед остаток кончится <span id="summary-depletion">{{ depletion_date }}</span></p>
+  <p class="text-sm opacity-90 mt-1" id="summary-policy">{{ policy_note }}</p>
+  <p class="text-sm opacity-90 mt-1 {% if not is_urgent %}hidden{% endif %}" id="summary-order-line">
+    Рекомендуем заказать <span id="summary-qty">{{ qty_fmt }}</span> {{ product.unit }} (к <span id="summary-reorder">{{ reorder_date }}</span>)
+  </p>
+  {% if cost_gel and is_urgent %}<p class="text-sm opacity-90 mt-1" id="summary-cost">{{ cost_gel }}</p>{% else %}<p class="text-sm opacity-90 mt-1 hidden" id="summary-cost"></p>{% endif %}
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const chartPayload = {{ chart_json | safe }};
+</script>
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+{% endblock %}

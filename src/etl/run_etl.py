@@ -25,6 +25,15 @@ def _member_ids(item: CriticalItem) -> list[int]:
     return []
 
 
+def _aggregate_safety(info: pd.DataFrame) -> float | None:
+    """Страховой для агрегата: MAX(SQNT) среди SKU, не SUM."""
+    sq = pd.to_numeric(info["SAFETY_STOCK"], errors="coerce").dropna()
+    if sq.empty:
+        return None
+    mx = float(sq.max())
+    return mx if mx > 0 else None
+
+
 def _product_row(item: CriticalItem, member_ids: list[int], current_stock: float,
                  unit_purchase_price_gel: float | None = None) -> dict:
     name = item.label
@@ -42,7 +51,7 @@ def _product_row(item: CriticalItem, member_ids: list[int], current_stock: float
                 safety = float(r["SAFETY_STOCK"]) if pd.notna(r["SAFETY_STOCK"]) else None
             else:
                 group_name = item.label
-                safety = float(pd.to_numeric(info["SAFETY_STOCK"], errors="coerce").fillna(0).sum())
+                safety = _aggregate_safety(info)
     return {
         "product_key": item.key,
         "label": item.label,
@@ -57,6 +66,7 @@ def _product_row(item: CriticalItem, member_ids: list[int], current_stock: float
         "safety_stock": safety,
         "current_stock": round(current_stock, 4),
         "unit_purchase_price_gel": unit_purchase_price_gel,
+        "demand_source": item.demand_source,
         "note": item.note,
     }
 
@@ -79,9 +89,14 @@ def run() -> None:
 
         ws_sales = transform.weekly_sales(sales_mv)
         ws_stock = transform.weekly_stock(stock_mv)
-        ws_demand = transform.build_demand(ws_stock, ws_sales, SETTINGS.season_window_weeks)
-
         current_stock = float(pd.to_numeric(stock_mv["QUANT"], errors="coerce").sum()) if not stock_mv.empty else 0.0
+        ws_stock = transform.attach_on_hand(ws_stock, ws_sales, current_stock)
+        ws_demand = transform.build_demand(
+            ws_stock, ws_sales, SETTINGS.season_window_weeks,
+            demand_source=item.demand_source,
+            stock_mv=stock_mv if item.demand_source == "inflow" else None,
+            target_qty=item.target_qty,
+        )
         purchase_price = queries.weighted_purchase_price_gel(stock_mv)
         products_rows.append(_product_row(item, member_ids, current_stock, purchase_price))
 

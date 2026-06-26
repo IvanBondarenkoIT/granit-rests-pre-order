@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import pandas as pd
 
-from src.gui.components.status import STATUS_OK, STATUS_ORDER_NOW, STATUS_SOON, urgency_status
+from src.web.services.status import STATUS_OK, STATUS_ORDER_NOW, STATUS_SOON, urgency_status
 
 
 def test_urgency_order_now_by_reorder_date():

@@ -1,0 +1,27 @@
+.app-shell { max-width: 390px; }
+.nav-item {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  color: #50453e; padding: 4px 12px; border-radius: 8px;
+}
+.nav-active { color: #875208; }
+.card {
+  background: #fff; border-radius: 1rem; padding: 1rem 1.25rem;
+  box-shadow: 0 4px 20px rgba(111, 78, 55, 0.08);
+  margin-bottom: 0.75rem;
+}
+.kpi-chip {
+  flex: 1; background: #fff; border-radius: 1rem; padding: 0.75rem;
+  text-align: center; box-shadow: 0 4px 20px rgba(111, 78, 55, 0.08);
+}
+.kpi-num { font-family: 'JetBrains Mono', monospace; font-size: 1.35rem; font-weight: 700; color: #553722; }
+.chip-btn {
+  padding: 0.35rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;
+  border: 1px solid #d4c3ba; color: #50453e; background: #fff;
+}
+.chip-btn.active { background: #553722; color: #fff; border-color: #553722; }
+.metric-box {
+  background: #fff; border-radius: 0.75rem; padding: 0.5rem 0.25rem; text-align: center;
+  box-shadow: 0 2px 12px rgba(111, 78, 55, 0.06);
+}
+.metric-val { font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; font-weight: 600; color: #553722; }
+.metric-lbl { font-size: 0.65rem; text-transform: uppercase; color: #50453e; letter-spacing: 0.04em; }

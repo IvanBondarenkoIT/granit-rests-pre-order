@@ -47,12 +47,13 @@ def compute(demand: pd.DataFrame, current_stock: float, as_of: pd.Timestamp,
             lead_time_weeks: float, service_level: float,
             safety_stock_target: float = 0.0, season_window: int = 3,
             coverage_weeks: float | None = None,
-            horizon_weeks: int = 104) -> InventoryResult:
+            horizon_weeks: int = 104,
+            recent_weeks: int = fc.RECENT_WEEKS) -> InventoryResult:
     """Расчёт параметров запаса и дат на основе прогноза вперёд.
 
     coverage_weeks — целевое покрытие сверх lead time при заказе (по умолчанию = lead time).
     """
-    stats = fc.demand_stats(demand)
+    stats = fc.demand_stats(demand, recent_weeks=recent_weeks)
     weekly_mean = stats["weekly_mean"]
     weekly_std = stats["weekly_std"]
     coverage_weeks = lead_time_weeks if coverage_weeks is None else coverage_weeks
@@ -60,7 +61,7 @@ def compute(demand: pd.DataFrame, current_stock: float, as_of: pd.Timestamp,
     safety_calc = safety_stock(weekly_std, weekly_mean, lead_time_weeks, service_level)
     safety_eff = max(safety_calc, float(safety_stock_target or 0.0))
 
-    horizon = fc.forecast_weeks(demand, as_of, horizon_weeks, season_window)
+    horizon = fc.forecast_weeks(demand, as_of, horizon_weeks, season_window, recent_weeks=recent_weeks)
     demand_over_lead = float(horizon["forecast"].head(int(math.ceil(lead_time_weeks))).sum())
     reorder_point = demand_over_lead + safety_eff
 

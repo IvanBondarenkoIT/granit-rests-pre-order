@@ -19,6 +19,7 @@ TABLES = (
     "weekly_stock",
     "weekly_demand",
     "recommendations",
+    "replenishment_stats",
     "sync_state",
 )
 

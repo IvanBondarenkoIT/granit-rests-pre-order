@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Обзор — Granit{% endblock %}
+{% block header %}Обзор{% endblock %}
+{% block subheader %}<p class="text-sm text-[#50453e] mt-1">Что заказать в первую очередь</p>{% endblock %}
+
+{% block content %}
+{% if not has_data %}
+<div class="card text-red-700">Нет данных. Запустите <code>python -m src.etl.run_etl</code></div>
+{% else %}
+
+<div class="flex gap-2 mb-4">
+  <div class="kpi-chip"><div class="kpi-num text-red-700">{{ counts.order_now }}</div><div class="text-[10px] font-bold uppercase text-[#50453e]">Сейчас</div></div>
+  <div class="kpi-chip"><div class="kpi-num text-amber-700">{{ counts.soon }}</div><div class="text-[10px] font-bold uppercase text-[#50453e]">Скоро</div></div>
+  <div class="kpi-chip"><div class="kpi-num text-green-700">{{ counts.ok }}</div><div class="text-[10px] font-bold uppercase text-[#50453e]">Ок</div></div>
+</div>
+
+<div class="flex gap-2 mb-4">
+  <a href="{{ url_for('overview.index') }}" class="chip-btn {% if filter_mode == 'all' %}active{% endif %}">Все</a>
+  <a href="{{ url_for('overview.index', filter='urgent') }}" class="chip-btn {% if filter_mode == 'urgent' %}active{% endif %}">Срочные</a>
+</div>
+
+<p class="text-sm font-semibold mb-3">{{ items|length }} позиций</p>
+
+{% for item in items %}
+<a href="{{ url_for('product.index', key=item.product_key) }}" class="card block border-l-4 {{ item.border_class }}">
+  <div class="flex justify-between items-start gap-2">
+    <div>
+      <h3 class="font-semibold text-[#553722]">
+        {{ item.label }}
+        {% if item.demand_source == 'inflow' %}
+        <span class="text-[10px] font-normal text-[#50453e]">· расход по приходам</span>
+        {% endif %}
+      </h3>
+      <p class="text-sm text-[#50453e] mt-1">
+        {{ "{:,.0f}".format(item.current_stock).replace(",", " ") }} {{ item.unit }}
+        · запас {{ item.cover }}
+      </p>
+      <p class="text-xs text-[#50453e] mt-1">Заказать до <b>{{ item.reorder_date }}</b></p>
+    </div>
+    <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded {{ item.badge_class }}">{{ item.badge_label }}</span>
+  </div>
+</a>
+{% endfor %}
+{% endif %}
+{% endblock %}

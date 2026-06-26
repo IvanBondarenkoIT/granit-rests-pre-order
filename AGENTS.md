@@ -32,7 +32,7 @@
   - валюта закупки: GEL (₾), цена из приходов `GDDKT.PRICE`.
 
 ## 5. Структура и стиль кода
-- Слои: `src/source` (доступ к БД) / `src/storage` (локальная БД) / `src/etl` / `src/analysis` / `src/gui` — независимы.
+- Слои: `src/source` / `src/storage` / `src/etl` / `src/analysis` / `src/web` — независимы.
 - Типизация (type hints), докстринги у публичных функций; без «мусорных» комментариев.
 - Конфигурация — через `src/config.py` (чтение `.env`).
 - Локальное хранилище — через SQLAlchemy (`DATABASE_URL`); цель — PostgreSQL, fallback — SQLite.

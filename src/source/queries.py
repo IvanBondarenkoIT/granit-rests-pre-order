@@ -1,6 +1,7 @@
 """SQL-запросы к Firebird (GEORGIA.GDB). Канонические правила домена — см. AGENTS.md."""
 from __future__ import annotations
 
+from datetime import date
 from typing import Sequence
 
 import pandas as pd
@@ -106,3 +107,56 @@ def weighted_purchase_price_gel(movements: pd.DataFrame) -> float | None:
     if total_q <= 0:
         return None
     return round(float((qty * price).sum() / total_q), 4)
+
+
+def resolve_our_orgn_id() -> int:
+    """OURORGNID from STORLIST or SETTINGS."""
+    from src.config import SETTINGS
+
+    if SETTINGS.our_orgn_id is not None:
+        return SETTINGS.our_orgn_id
+    df = query_df("SELECT FIRST 1 OURORGNID FROM STORLIST ORDER BY ID", [])
+    if df.empty:
+        raise RuntimeError("OURORGNID not found; set OURORGNID in .env")
+    return int(df.iloc[0, 0])
+
+
+def get_report_stock_qend(
+    goods_id: int,
+    as_of: date,
+    *,
+    orgn_id: int | None = None,
+    user_id: int | None = None,
+    require_user_group: bool = False,
+) -> float:
+    """Granit report stock: Sum(QEND) from GddDt_MoveGoodsAll on as_of."""
+    from datetime import date as date_type
+    from src.config import SETTINGS
+
+    if not isinstance(as_of, date_type):
+        raise TypeError("as_of must be datetime.date")
+    oid = orgn_id if orgn_id is not None else resolve_our_orgn_id()
+    uid = user_id if user_id is not None else SETTINGS.stock_report_user_id
+    edate = as_of.isoformat()
+    if require_user_group:
+        sql = (
+            "SELECT COALESCE(SUM(P.QEND), 0) AS QUANT "
+            "FROM GddDt_MoveGoodsAll(?, CAST(? AS DATE), CAST(? AS DATE)) P "
+            "JOIN GOODS G ON G.ID = P.GID "
+            "JOIN GOODS GG ON GG.ID = G.OWNER "
+            "JOIN USERGGRP UG ON UG.GGRPID = GG.ID AND UG.USERID = ? "
+            "WHERE P.GID = ?"
+        )
+        params = [oid, edate, edate, uid, goods_id]
+    else:
+        sql = (
+            "SELECT COALESCE(SUM(P.QEND), 0) AS QUANT "
+            "FROM GddDt_MoveGoodsAll(?, CAST(? AS DATE), CAST(? AS DATE)) P "
+            "WHERE P.GID = ?"
+        )
+        params = [oid, edate, edate, goods_id]
+    df = query_df(sql, params)
+    if df.empty:
+        return 0.0
+    val = df.iloc[0, 0]
+    return 0.0 if val is None else float(val)

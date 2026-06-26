@@ -57,7 +57,49 @@ def weekly_stock(stock_df: pd.DataFrame) -> pd.DataFrame:
     return out[cols].sort_values("week_start").reset_index(drop=True)
 
 
-def build_demand(ws_stock: pd.DataFrame, ws_sales: pd.DataFrame, season_window: int = 3) -> pd.DataFrame:
+def attach_on_hand(
+    ws_stock: pd.DataFrame,
+    ws_sales: pd.DataFrame,
+    current_stock: float,
+) -> pd.DataFrame:
+    """Симуляция остатка на складе: приход − продажи, якорь на current_stock в последней неделе.
+
+    on_hand[w] = on_hand[w-1] + inflow[w] - sales[w] (после сдвига offset).
+    Для графика в UI; KPI «сейчас» — леджер products.current_stock.
+    """
+    cols = list(ws_stock.columns) if not ws_stock.empty else [
+        "week_start", "iso_year", "iso_week", "stock_end", "inflow", "outflow", "on_hand",
+    ]
+    if ws_stock.empty:
+        return pd.DataFrame(columns=cols)
+
+    sales_map: dict = {}
+    if not ws_sales.empty:
+        sales_map = dict(zip(ws_sales["week_start"], ws_sales["qty"]))
+
+    sim: list[float] = []
+    prev = 0.0
+    for _, row in ws_stock.iterrows():
+        inflow = float(row.get("inflow") or 0.0)
+        sales = float(sales_map.get(row["week_start"], 0.0))
+        prev = prev + inflow - sales
+        sim.append(prev)
+
+    out = ws_stock.copy()
+    offset = float(current_stock) - sim[-1] if sim else 0.0
+    out["on_hand"] = np.round(np.array(sim) + offset, 4)
+    return out
+
+
+def build_demand(
+    ws_stock: pd.DataFrame,
+    ws_sales: pd.DataFrame,
+    season_window: int = 3,
+    *,
+    demand_source: str = "sales",
+    stock_mv: pd.DataFrame | None = None,
+    target_qty: float | None = None,
+) -> pd.DataFrame:
     """Сигнал спроса (потребление) с восстановлением истинного спроса при дефиците.
 
     В этой БД движения GDDKT для критических товаров содержат ТОЛЬКО приход
@@ -90,5 +132,11 @@ def build_demand(ws_stock: pd.DataFrame, ws_sales: pd.DataFrame, season_window: 
     # спрос у редко-продаваемых позиций). true_demand = observed_sales.
     # Механизм unconstraining включится, когда появится точный on-hand (см. worksheet).
     df["stockout_flag"] = 0
-    df["true_demand"] = np.round(df["observed_sales"], 4)
+    if demand_source == "inflow" and stock_mv is not None:
+        from src.etl.inflow_demand import implied_weekly_consumption
+
+        rate = implied_weekly_consumption(stock_mv, target_qty=target_qty)
+        df["true_demand"] = rate
+    else:
+        df["true_demand"] = np.round(df["observed_sales"], 4)
     return df[cols].sort_values("week_start").reset_index(drop=True)

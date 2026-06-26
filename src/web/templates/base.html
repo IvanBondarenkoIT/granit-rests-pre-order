@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru" class="light">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>{% block title %}Granit{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  {% block head %}{% endblock %}
+</head>
+<body class="bg-[#fcf9f5] text-[#1c1c1a] font-sans antialiased">
+  <div class="app-shell mx-auto min-h-screen pb-24">
+    <header class="sticky top-0 z-30 bg-[#fcf9f5]/95 backdrop-blur px-5 py-4 border-b border-[#e5e2de]">
+      <h1 class="text-lg font-bold text-[#553722]">{% block header %}Granit{% endblock %}</h1>
+      {% block subheader %}{% endblock %}
+    </header>
+    <main class="px-5 py-4">
+      {% block content %}{% endblock %}
+    </main>
+    <nav class="fixed bottom-0 left-0 right-0 z-50 mx-auto max-w-[390px] flex justify-around items-center px-4 py-3 bg-white shadow-[0_-4px_20px_rgba(111,78,55,0.08)] rounded-t-xl">
+      <a href="{{ url_for('overview.index') }}" class="nav-item {% if active_tab == 'overview' %}nav-active{% endif %}">
+        <span class="material-symbols-outlined text-xl">dashboard</span>
+        <span class="text-[10px] font-bold uppercase tracking-wide">Обзор</span>
+      </a>
+      <a href="{{ url_for('product.index') }}" class="nav-item {% if active_tab == 'product' %}nav-active{% endif %}">
+        <span class="material-symbols-outlined text-xl">inventory_2</span>
+        <span class="text-[10px] font-bold uppercase tracking-wide">Товар</span>
+      </a>
+      <a href="{{ url_for('order.index') }}" class="nav-item {% if active_tab == 'order' %}nav-active{% endif %}">
+        <span class="material-symbols-outlined text-xl">shopping_cart</span>
+        <span class="text-[10px] font-bold uppercase tracking-wide">Заказ</span>
+      </a>
+    </nav>
+  </div>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

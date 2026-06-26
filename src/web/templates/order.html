@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Заказ — Granit{% endblock %}
+{% block header %}Заказ{% endblock %}
+{% block subheader %}<p class="text-sm text-[#50453e] mt-1">Совместное пополнение</p>{% endblock %}
+
+{% block content %}
+{% if not has_data %}
+<div class="card text-red-700">Нет данных</div>
+{% else %}
+
+<div class="card bg-amber-50 border border-amber-200 text-sm mb-4">
+  Ближайшая общая дата: <b>{{ sync_date }}</b>
+</div>
+
+<form method="get" id="cycleForm" class="mb-4 card">
+  <label class="text-xs font-bold uppercase text-[#50453e]">Горизонт покрытия, нед.</label>
+  <p class="text-[10px] text-[#82746d] mb-2">По умолчанию из .env (DEFAULT_LEAD_TIME_WEEKS = {{ default_cycle }})</p>
+  <input type="range" name="cycle" id="cycleSlider" min="2" max="26" value="{{ cycle }}" class="w-full"/>
+  <div class="flex justify-between items-center mt-2">
+    <span class="text-sm font-mono" id="cycleLabel">{{ cycle }} нед.</span>
+    <button type="submit" class="chip-btn active px-4 py-2">Пересчитать</button>
+  </div>
+</form>
+
+<form method="post">
+  <input type="hidden" name="cycle" value="{{ cycle }}"/>
+  {% for row in rows %}
+  <div class="card flex gap-3 items-center">
+    <input type="checkbox" name="sel_{{ row.product_key }}" {% if row.checked %}checked{% endif %} class="w-5 h-5"/>
+    <div class="flex-1 min-w-0">
+      <p class="font-semibold text-[#553722] truncate">{{ row.label }}</p>
+      <p class="text-xs text-[#50453e]">{{ row.stock_fmt }} {{ row.unit }}</p>
+    </div>
+    <input type="number" name="qty_{{ row.product_key }}" value="{{ row.qty }}" min="0" step="1"
+           class="w-16 text-right rounded border border-[#d4c3ba] px-1 py-1 text-sm font-mono"/>
+    <span class="text-xs font-mono w-16 text-right">{{ row.cost }}</span>
+  </div>
+  {% endfor %}
+
+  <div class="card mt-4 text-center">
+    <p class="text-lg font-bold text-[#553722]">Позиций: {{ total_count }} · {{ total_gel }}</p>
+    <p class="text-xs text-[#50453e] mt-1">Ориентировочно · GDDKT.PRICE</p>
+    <button type="submit" name="action" value="export" class="mt-3 w-full bg-[#553722] text-white rounded-lg py-3 font-semibold">
+      Оформить список
+    </button>
+  </div>
+</form>
+
+{% if export_lines %}
+<div class="card mt-4">
+  <pre class="text-xs whitespace-pre-wrap">{{ export_lines }}</pre>
+</div>
+{% endif %}
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const slider = document.getElementById("cycleSlider");
+  const label = document.getElementById("cycleLabel");
+  if (slider && label) {
+    slider.addEventListener("input", () => { label.textContent = slider.value + " нед."; });
+  }
+</script>
+{% endblock %}

@@ -24,6 +24,8 @@ class Settings:
     fb_client_dir: str
     gdb_user: str
     gdb_password: str
+    our_orgn_id: int | None
+    stock_report_user_id: int
     proxy_url: str
     proxy_token: str
     proxy_timeout: int
@@ -43,6 +45,8 @@ def get_settings() -> Settings:
         fb_client_dir=_abs(os.getenv("FB_CLIENT_DIR", "tools/fb25")),
         gdb_user=os.getenv("GDB_USER", "SYSDBA"),
         gdb_password=os.getenv("GDB_PASSWORD", "masterkey"),
+        our_orgn_id=int(v) if (v := os.getenv("OURORGNID", "").strip()) else None,
+        stock_report_user_id=int(os.getenv("STOCK_REPORT_USER_ID", "1")),
         proxy_url=os.getenv("PROXY_API_URL", ""),
         proxy_token=os.getenv("PROXY_API_TOKEN", ""),
         proxy_timeout=int(os.getenv("PROXY_API_TIMEOUT", "90")),

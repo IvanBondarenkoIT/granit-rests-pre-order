@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import pandas as pd
 
-from src.gui.charts.seasonal import median_by_iso_week
+from src.web.services.charts import median_by_iso_week
 
 
 def test_median_by_iso_week_two_years():

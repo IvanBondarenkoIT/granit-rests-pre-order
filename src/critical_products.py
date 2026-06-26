@@ -20,11 +20,13 @@ class CriticalItem:
     product_id: int | None = None
     group_ids: tuple[int, ...] = field(default_factory=tuple)
     param_ids: tuple[int, int] | None = None  # (GDSPARAMPRM.ID, GDSPARAMVAL.ID) e.g. Продукция=Кофе(кг)
+    demand_source: str = "sales"  # sales | inflow (расход по приходам GDDKT)
     note: str = ""
 
 
 CRITICAL_ITEMS: list[CriticalItem] = [
     CriticalItem("bag_paper", "Bag paper", "sku", "pcs", 300, product_id=24286,
+                 demand_source="inflow",
                  note="бесплатный расходник: спрос из приходов GDDKT, не из продаж"),
     CriticalItem("coffee", "Coffee", "group", "kg", 1700,
                  param_ids=(2, 3),
@@ -33,9 +35,9 @@ CRITICAL_ITEMS: list[CriticalItem] = [
                  note="агрегат группы 22939 (все фасовки Caotina)"),
     CriticalItem("caotina_100_dark", "Caotina 100г dark", "sku", "pcs", 30, product_id=25979),
     CriticalItem("caotina_100_original", "Caotina 100г original", "sku", "pcs", 30, product_id=25920),
-    CriticalItem("cup_12oz", "Cup 12 oz", "sku", "pcs", 2000, product_id=26213),
-    CriticalItem("cup_8oz", "Cup 8 oz", "sku", "pcs", 2000, product_id=24500),
-    CriticalItem("cup_4oz", "Cup 4 oz", "sku", "pcs", 500, product_id=24790),
+    CriticalItem("cup_12oz", "Cup 12 oz", "sku", "pcs", 2000, product_id=26213, demand_source="inflow"),
+    CriticalItem("cup_8oz", "Cup 8 oz", "sku", "pcs", 2000, product_id=24500, demand_source="inflow"),
+    CriticalItem("cup_4oz", "Cup 4 oz", "sku", "pcs", 500, product_id=24790, demand_source="inflow"),
     CriticalItem("drip_ethiopia", "Drip Ethiopia", "sku", "pcs", 30, product_id=27248),
     CriticalItem("drip_lilla_rose", "Drip Lilla&Rose", "sku", "pcs", 30, product_id=26498),
     CriticalItem("dlsc002", "DeLonghi DLSC002", "sku", "pcs", 300, product_id=24227),
@@ -45,7 +47,7 @@ CRITICAL_ITEMS: list[CriticalItem] = [
     CriticalItem("dlsc060", "DeLonghi DLSC060", "sku", "pcs", 5, product_id=25027),
     CriticalItem("dlsc069", "DeLonghi DLSC069", "sku", "pcs", 5, product_id=25594),
     CriticalItem("dlsc058", "DeLonghi DLSC058", "sku", "pcs", 5, product_id=24999),
-    CriticalItem("sugar", "Sugar", "sku", "kg", 50, product_id=22267),
+    CriticalItem("sugar", "Sugar", "sku", "kg", 50, product_id=22267, demand_source="inflow"),
 ]
 
 

@@ -18,7 +18,6 @@ def _recent_level(demand: pd.DataFrame, weeks: int = RECENT_WEEKS) -> float:
     tail = d["true_demand"].tail(weeks)
     return float(tail.mean()) if len(tail) else 0.0
 
-
 def seasonal_index(demand: pd.DataFrame, iso_week: int, window: int = 3) -> float:
     """Сезонный индекс для ISO-недели относительно общей медианы (с заворотом года)."""
     d = demand
@@ -36,12 +35,12 @@ def seasonal_index(demand: pd.DataFrame, iso_week: int, window: int = 3) -> floa
 
 
 def forecast_weeks(demand: pd.DataFrame, start_week: pd.Timestamp, n_weeks: int,
-                   window: int = 3) -> pd.DataFrame:
+                   window: int = 3, recent_weeks: int = RECENT_WEEKS) -> pd.DataFrame:
     """Прогноз на n_weeks вперёд начиная со start_week (понедельники ISO).
 
     Возвращает DataFrame: week_start, iso_week, forecast.
     """
-    level = _recent_level(demand)
+    level = _recent_level(demand, weeks=recent_weeks)
     rows = []
     for i in range(1, n_weeks + 1):
         wk_start = start_week + pd.Timedelta(weeks=i)
@@ -51,10 +50,10 @@ def forecast_weeks(demand: pd.DataFrame, start_week: pd.Timestamp, n_weeks: int,
     return pd.DataFrame(rows)
 
 
-def demand_stats(demand: pd.DataFrame) -> dict:
+def demand_stats(demand: pd.DataFrame, recent_weeks: int = RECENT_WEEKS) -> dict:
     """Базовые статистики истинного спроса для расчёта запаса."""
     td = pd.to_numeric(demand["true_demand"], errors="coerce").fillna(0.0)
-    recent = td.tail(RECENT_WEEKS)
+    recent = td.tail(recent_weeks) if recent_weeks < len(td) else td
     return {
         "weekly_mean": float(recent.mean()) if len(recent) else 0.0,
         "weekly_std": float(recent.std(ddof=0)) if len(recent) else 0.0,

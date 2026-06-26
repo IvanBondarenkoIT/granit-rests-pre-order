@@ -1,0 +1,53 @@
+{
+  "as_of": "2024-06-25",
+  "source": "Отчёт: Остаток товара (по доступным группам)",
+  "note": "Orientation benchmark. as_of — дата в шапке отчёта; для свежей .GDB reconcile без --use-as-of.",
+  "groups": {
+    "26761": {
+      "name": "Delonghi Cleaning coffee makers",
+      "items_by_article": {
+        "5513292811": {
+          "name": "DeLonghi Filter DLSC002",
+          "qty": 1105,
+          "goods_id": 24227
+        },
+        "DLSC550": {
+          "name": "DeLonghi Multiclean DLSC550",
+          "qty": 141,
+          "goods_id": 24980
+        },
+        "DLSC500": {
+          "name": "DeLonghi Liquid descaling 500ml",
+          "qty": 1124,
+          "goods_id": 22284
+        }
+      }
+    },
+    "coffee_blasercafe_blend": {
+      "name": "Coffee Blasercafe blend (250 g)",
+      "items_by_id": {
+        "20628": {
+          "name": "Coffee Blaser Rosso & Nero (250 g)",
+          "qty": 253.5
+        },
+        "21938": {
+          "name": "Coffee Blaser Pura Vida (250 g)",
+          "qty": 182
+        }
+      }
+    },
+    "coffee_blasercafe_origin": {
+      "name": "Coffee Blasercafe single origin (250 g)",
+      "items_by_id": {
+        "20654": {
+          "name": "Coffee Blaser Java (250 g)",
+          "qty": 184.5
+        },
+        "20637": {
+          "name": "Coffee Blaser Columbia (250 g)",
+          "qty": 115.25
+        }
+      }
+    }
+  }
+}

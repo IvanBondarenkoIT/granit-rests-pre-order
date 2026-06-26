@@ -1,7 +1,5 @@
-"""Статус срочности позиции для UI."""
+"""Статус срочности позиций для веб-UI."""
 from __future__ import annotations
-
-from datetime import date
 
 import pandas as pd
 
@@ -15,10 +13,10 @@ STATUS_LABELS = {
     STATUS_OK: "Под контролем",
 }
 
-BADGE_CLASS = {
-    STATUS_ORDER_NOW: "badge-critical",
-    STATUS_SOON: "badge-warn",
-    STATUS_OK: "badge-ok",
+STATUS_BADGE = {
+    STATUS_ORDER_NOW: ("Критично", "bg-red-100 text-red-800"),
+    STATUS_SOON: ("Скоро", "bg-amber-100 text-amber-800"),
+    STATUS_OK: ("Ок", "bg-green-100 text-green-800"),
 }
 
 
@@ -27,7 +25,6 @@ def urgency_status(
     as_of: pd.Timestamp | None = None,
     lead_time_weeks: int = 8,
 ) -> str:
-    """Классификация: order_now / soon / ok."""
     as_of = as_of or pd.Timestamp.today().normalize()
     reorder = row.get("reorder_date")
     if pd.notna(reorder) and pd.Timestamp(reorder).normalize() <= as_of:
@@ -42,17 +39,22 @@ def urgency_status(
 
 
 def status_summary(df: pd.DataFrame, lead_time_weeks: int = 8) -> dict[str, int]:
-    """Счётчики для KPI-чипов на экране Обзор."""
     counts = {STATUS_ORDER_NOW: 0, STATUS_SOON: 0, STATUS_OK: 0}
     for _, row in df.iterrows():
         counts[urgency_status(row, lead_time_weeks=lead_time_weeks)] += 1
     return counts
 
 
-def format_date(d: date | pd.Timestamp | None) -> str:
+def format_date(d) -> str:
     if d is None or (isinstance(d, float) and pd.isna(d)):
         return "—"
     ts = pd.Timestamp(d)
     if pd.isna(ts):
         return "—"
     return ts.strftime("%d.%m.%Y")
+
+
+def format_gel(amount: float | None) -> str:
+    if amount is None or pd.isna(amount):
+        return "—"
+    return f"~{amount:,.0f} ₾".replace(",", " ")
